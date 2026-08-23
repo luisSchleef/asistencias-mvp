@@ -1,5 +1,6 @@
 package org.asistencias.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.asistencias.controller.crud;
 import org.asistencias.model.user;
 
@@ -31,6 +32,10 @@ public class frmUser extends JFrame {
         setSize(640, 420);
         setLocationRelativeTo(null);
 
+        FlatSVGIcon crear = new FlatSVGIcon("icons/crear.svg", 24,24);
+        FlatSVGIcon modificar = new FlatSVGIcon("icons/modificar.svg", 24,24);
+        FlatSVGIcon eliminar = new FlatSVGIcon("icons/eliminar.svg", 24,24);
+
         modelo = new DefaultTableModel(new String[]{"ID", "Nombre", "Correo", "Rol"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
@@ -41,9 +46,9 @@ public class frmUser extends JFrame {
         sorter = new TableRowSorter<>(modelo);
         tabla.setRowSorter(sorter);
 
-        JButton btnCrear = new JButton("Crear");
-        JButton btnModificar = new JButton("Modificar");
-        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnCrear = new JButton("Crear", crear);
+        JButton btnModificar = new JButton("Modificar", modificar);
+        JButton btnEliminar = new JButton("Eliminar", eliminar);
         JTextField txtBuscar = new JTextField();
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
         txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
@@ -83,10 +88,17 @@ public class frmUser extends JFrame {
         btnModificar.addActionListener(e -> modificar());
         btnEliminar.addActionListener(e -> eliminar());
 
-
+        aplicarCursorMano(btnCrear, btnEliminar, btnModificar);
         cargar();
     }
-
+    public void aplicarCursorMano(JButton... botones) {
+        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        for (JButton btn : botones) {
+            if (btn != null) {
+                btn.setCursor(mano);
+            }
+        }
+    }
 
     private void cargar() {
         modelo.setRowCount(0);

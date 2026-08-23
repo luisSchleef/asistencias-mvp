@@ -1,5 +1,6 @@
 package org.asistencias.ui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import org.asistencias.controller.crud;
 import org.asistencias.model.user;
 
@@ -17,10 +18,19 @@ public class frmMenu extends JFrame {
         setSize(500, esAdmin ? 320 : 240);
         setLocationRelativeTo(null);
 
-        JButton btnEntrada = new JButton("Marcar Entrada");
-        JButton btnSalida = new JButton("Marcar Salida");
-        JButton btnCerrar = new JButton("Cerrar Sesión");
+
+        FlatSVGIcon arrowUp = new FlatSVGIcon("icons/arrow-up.svg", 24, 24);
+        FlatSVGIcon arrrowDown = new FlatSVGIcon("icons/arrow-down.svg", 24, 24);
+        FlatSVGIcon arrowLeft = new FlatSVGIcon("icons/arrow-left.svg", 24, 24);
+        FlatSVGIcon users = new FlatSVGIcon("icons/users.svg", 24, 24);
+        FlatSVGIcon reports = new FlatSVGIcon("icons/reports.svg", 24, 24);
+
+
+        JButton btnEntrada = new JButton("Marcar Entrada", arrowUp);
+        JButton btnSalida = new JButton("Marcar Salida", arrrowDown);
+        JButton btnCerrar = new JButton("Cerrar Sesión", arrowLeft);
         btnCerrar.setBackground(Color.decode("#D10000"));
+        btnCerrar.setForeground(Color.WHITE);
 
         crud crud = new crud();
 
@@ -33,11 +43,13 @@ public class frmMenu extends JFrame {
         panel.add(btnEntrada);
         panel.add(btnSalida);
 
+        JButton btnAtrasos = null;
+        JButton btnInasistencias = null;
         if (esAdmin) {
-            JButton btnAtrasos = new JButton("Reporte de Atrasos");
-            JButton btnSalidas = new JButton("Reporte Salidas Anticipadas");
-            JButton btnInasistencias = new JButton("Reporte de Inasistencias");
-            JButton btnUsuarios = new JButton("Gestionar Usuarios");
+            btnAtrasos = new JButton("Reporte de Atrasos", reports);
+            JButton btnSalidas = new JButton("Reporte Salidas Anticipadas", reports);
+            btnInasistencias = new JButton("Reporte de Inasistencias", reports);
+            JButton btnUsuarios = new JButton("Gestionar Usuarios", users);
             btnAtrasos.addActionListener(e -> abrirReporte("Reporte de Entradas Atrasadas (post 9:30)",
                     new String[]{"ID", "Nombre", "Fecha", "Hora Entrada"}, crud::reporteAtrasos));
             btnSalidas.addActionListener(e -> abrirReporte("Reporte de Salidas Anticipadas (antes de 17:30)",
@@ -49,9 +61,11 @@ public class frmMenu extends JFrame {
             panel.add(btnSalidas);
             panel.add(btnInasistencias);
             panel.add(btnUsuarios);
+            aplicarCursorMano(btnEntrada, btnSalida, btnAtrasos, btnInasistencias, btnUsuarios, btnCerrar, btnSalidas);
         }
         panel.add(btnCerrar);
         add(panel);
+
 
         btnEntrada.addActionListener(e -> marcar(crud, usuario, "ENTRADA", btnEntrada));
         btnSalida.addActionListener(e -> marcar(crud, usuario, "SALIDA", btnSalida));
@@ -59,6 +73,14 @@ public class frmMenu extends JFrame {
             new frmLogin().setVisible(true);
             dispose();
         });
+    }
+    public void aplicarCursorMano(JButton... botones) {
+        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        for (JButton btn : botones) {
+            if (btn != null) {
+                btn.setCursor(mano);
+            }
+        }
     }
 
     private void abrirReporte(String titulo, String[] columnas, java.util.concurrent.Callable<List<String[]>> carga) {

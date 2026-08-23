@@ -35,3 +35,4 @@ build/
 
 ### otros (como el .env tiene variables de testeo no hay problemas)###
 .codegraph
+.env

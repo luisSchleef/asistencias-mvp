@@ -1,13 +1,10 @@
 # MVP de asistencia
 
----
 Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y venta de productos químicos ha solicitado la creación de un Mínimo Producto Viable (MVP) para un sistema de registro de asistencia de empleados. La empresa necesita una **aplicación de escritorio** que permita gestionar eficientemente la entrada y salida de sus trabajadores y trabajadoras. Esta solicitud es fundamental para mejorar la organización interna y asegurar el cumplimiento de las normativas laborales, además de optimizar la administración del tiempo y los recursos humanos.
 
----
 ```
 git clone https://github.com/luisSchleef/asistencias-mvp
 ```
----
 ## Requerimientos Funcionales
 
 | Requerimiento                   | Descripción |
@@ -22,7 +19,6 @@ git clone https://github.com/luisSchleef/asistencias-mvp
 
 ## Detalle de Requerimientos
 
----
 ### Control de asistencia
 
 - **Descripción:** La aplicación debe permitir el control de asistencia de los empleados. Los usuarios marcarán su entrada con un botón y su salida de la misma forma.

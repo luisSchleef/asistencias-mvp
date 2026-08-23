@@ -1,28 +1,30 @@
+# MVP de asistencia
+
+---
+Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y venta de productos químicos ha solicitado la creación de un Mínimo Producto Viable (MVP) para un sistema de registro de asistencia de empleados. La empresa necesita una **aplicación de escritorio** que permita gestionar eficientemente la entrada y salida de sus trabajadores y trabajadoras. Esta solicitud es fundamental para mejorar la organización interna y asegurar el cumplimiento de las normativas laborales, además de optimizar la administración del tiempo y los recursos humanos.
+
+---
 ```
 git clone https://github.com/luisSchleef/asistencias-mvp
 ```
+---
+## Requerimientos Funcionales
 
-# Presentación y Descripción del Caso
+| Requerimiento                   | Descripción |
+|---------------------------------|-------------|
+| Control de asistencia           | La aplicación debe permitir el control de asistencia de los empleados. Los usuarios entran con correo y contraseña. Marcarán su entrada con un botón y su salida de la misma forma. |
+| Reporte de atrasos              | Permitir al Administrador elaborar un reporte de todos los que entren post 9:30 am ("entrada atrasada"). |
+| Reporte de salidas anticipadas  | Permitir al Administrador elaborar un reporte de todos los que salgan antes de las 17:30 ("salida anticipada"). |
+| Reporte de inasistencias        | Permitir al Administrador elaborar un reporte de todos los que no registraron ni entrada ni salida un día. |
+| Crear usuarios                  | El administrador debe ser capaz de crear usuarios. |
+| Modificar usuarios              | El administrador debe ser capaz de modificar usuarios. |
+| Eliminar usuarios               | El administrador debe ser capaz de eliminar usuarios. |
 
-Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y venta de productos químicos ha solicitado la creación de un Mínimo Producto Viable (MVP) para un sistema de registro de asistencia de empleados. La empresa necesita una **aplicación de escritorio** que permita gestionar eficientemente la entrada y salida de sus trabajadores y trabajadoras. Esta solicitud es fundamental para mejorar la organización interna y asegurar el cumplimiento de las normativas laborales, además de optimizar la administración del tiempo y los recursos humanos.
+## Detalle de Requerimientos
 
-## 1. Requerimientos Funcionales
+---
+### Control de asistencia
 
-| ID | Requerimiento | Descripción |
-|----|---------------|-------------|
-| CA-01 | Control de asistencia | La aplicación debe permitir el control de asistencia de los empleados. Los usuarios entran con correo y contraseña. Marcarán su entrada con un botón y su salida de la misma forma. |
-| RE-01 | Reporte de atrasos | Permitir al Administrador elaborar un reporte de todos los que entren post 9:30 am ("entrada atrasada"). |
-| RE-02 | Reporte de salidas anticipadas | Permitir al Administrador elaborar un reporte de todos los que salgan antes de las 17:30 ("salida anticipada"). |
-| RE-03 | Reporte de inasistencias | Permitir al Administrador elaborar un reporte de todos los que no registraron ni entrada ni salida un día. |
-| GU-01 | Crear usuarios | El administrador debe ser capaz de crear usuarios. |
-| GU-02 | Modificar usuarios | El administrador debe ser capaz de modificar usuarios. |
-| GU-03 | Eliminar usuarios | El administrador debe ser capaz de eliminar usuarios. |
-
-## 2. Detalle de Requerimientos
-
-### CA-01 — Control de asistencia
-
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** La aplicación debe permitir el control de asistencia de los empleados. Los usuarios marcarán su entrada con un botón y su salida de la misma forma.
 - **Actor:** Usuario
 - **Precondiciones:**
@@ -36,9 +38,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
 - **Flujo Alterno:** Usuario presiona botón Cerrar sesión sin presionar botón Entrada/salida.
 - **Postcondiciones:** Sistema presenta ventana de Login.
 
-### RE-01 — Reporte de atrasos
+### Reporte de atrasos
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** Permitir al Administrador elaborar un reporte de todos los que entren post 9:30 am ("entrada atrasada").
 - **Actor:** Usuario Administrador
 - **Precondiciones:**
@@ -49,9 +50,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
     2. Sistema presenta en pantalla todas las entradas posteriores a 9:30 desde la base de datos, indicando el identificador de cada usuario y los días que llegó atrasado.
 - **Postcondiciones:** El administrador puede visualizar el reporte de atrasos.
 
-### RE-02 — Reporte de Salidas Anticipadas
+### Reporte de Salidas Anticipadas
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** Permitir al Administrador elaborar un reporte de todos los que salgan antes de las 17:30 ("salida anticipada").
 - **Actor:** Usuario Administrador
 - **Precondiciones:**
@@ -62,9 +62,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
     2. El sistema presenta en pantalla todas las salidas antes de las 17:30 desde la base de datos, indicando el identificador de cada usuario y los días que salió anticipadamente.
 - **Postcondiciones:** El administrador puede visualizar el reporte de salidas anticipadas.
 
-### RE-03 — Reporte de Inasistencias
+### Reporte de Inasistencias
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** Permitir al Administrador elaborar un reporte de todos los que no registraron ni entrada ni salida un día.
 - **Actor:** Usuario Administrador
 - **Precondiciones:**
@@ -75,9 +74,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
     2. El sistema presenta en pantalla todos los días en los que no se registraron ni entradas ni salidas para los usuarios, indicando el identificador de cada usuario.
 - **Postcondiciones:** El administrador puede visualizar el reporte de inasistencias.
 
-### GU-01 — Crear Usuarios
+### Crear Usuarios
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** El administrador debe ser capaz de crear usuarios.
 - **Actor:** Usuario Administrador
 - **Precondiciones:**
@@ -90,9 +88,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
     4. El sistema confirma la creación del nuevo usuario.
 - **Postcondiciones:** El nuevo usuario queda registrado en el sistema.
 
-### GU-02 — Modificar Usuarios
+### Modificar Usuarios
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** El administrador debe ser capaz de modificar usuarios.
 - **Actor:** Usuario Administrador
 - **Precondiciones:**
@@ -106,9 +103,8 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
     5. El sistema confirma la modificación del usuario.
 - **Postcondiciones:** Los datos del usuario son actualizados en el sistema.
 
-### GU-03 — Eliminar Usuarios
+### Eliminar Usuarios
 
-- **Autor:** GG | **Creado:** 01-01-2024 | **Actualizado:** 02-01-2024
 - **Descripción:** El administrador debe ser capaz de eliminar usuarios.
 - **Actor:** Usuario Administrador
 - **Precondiciones:**

@@ -1,12 +1,8 @@
-# INTEGRACIÓN DE COMPETENCIAS II — Etapa I
-
-## si usan netbeans clonen el repo y asegurense de poner el connector de lib en las librerias.
-
 ```
-git clone https://github.com/luisSchleef/MVP-sistema-asistencia
+git clone https://github.com/luisSchleef/asistencias-mvp
 ```
 
-## Presentación y Descripción del Caso
+# Presentación y Descripción del Caso
 
 Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y venta de productos químicos ha solicitado la creación de un Mínimo Producto Viable (MVP) para un sistema de registro de asistencia de empleados. La empresa necesita una **aplicación de escritorio** que permita gestionar eficientemente la entrada y salida de sus trabajadores y trabajadoras. Esta solicitud es fundamental para mejorar la organización interna y asegurar el cumplimiento de las normativas laborales, además de optimizar la administración del tiempo y los recursos humanos.
 

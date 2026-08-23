@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+luis.iml
 
 ### IntelliJ IDEA ###
 .idea/
@@ -34,3 +35,4 @@ build/
 
 ### otros (como el .env tiene variables de testeo no hay problemas)###
 .codegraph
+.env

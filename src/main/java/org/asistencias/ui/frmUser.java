@@ -9,12 +9,20 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableRowSorter;
+import java.util.regex.Pattern;
+
+
 public class frmUser extends JFrame {
 
     private final crud crud = new crud();
     private final user admin;
     private final DefaultTableModel modelo;
     private final JTable tabla;
+    private final TableRowSorter<DefaultTableModel> sorter;
+
 
     public frmUser(user admin) {
         this.admin = admin;
@@ -30,11 +38,30 @@ public class frmUser extends JFrame {
         tabla = new JTable(modelo);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        sorter = new TableRowSorter<>(modelo);
+        tabla.setRowSorter(sorter);
+
         JButton btnCrear = new JButton("Crear");
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
         JTextField txtBuscar = new JTextField();
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
+        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                buscar(txtBuscar.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                buscar(txtBuscar.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                buscar(txtBuscar.getText());
+            }
+        });
 
 
         JPanel botones = new JPanel();
@@ -56,8 +83,10 @@ public class frmUser extends JFrame {
         btnModificar.addActionListener(e -> modificar());
         btnEliminar.addActionListener(e -> eliminar());
 
+
         cargar();
     }
+
 
     private void cargar() {
         modelo.setRowCount(0);
@@ -69,8 +98,18 @@ public class frmUser extends JFrame {
         }
     }
 
-    private void buscar() {
+    private void buscar(String texto) {
+        String busqueda = texto.trim();
 
+        if (busqueda.isEmpty()) {
+            sorter.setRowFilter(null);
+            return;
+        }
+
+        sorter.setRowFilter(RowFilter.regexFilter(
+                "(?i)" + Pattern.quote(busqueda),
+                0, 1, 2, 3
+        ));
     }
 
     private void dialogoUsuario(Integer filaSeleccionada) {
@@ -129,11 +168,28 @@ public class frmUser extends JFrame {
     }
 
     private void modificar() {
-        dialogoUsuario(tabla.getSelectedRow());
+        int filaVista = tabla.getSelectedRow();
+        int filaModelo = filaVista < 0
+                ? -1
+                : tabla.convertRowIndexToModel(filaVista);
+
+        dialogoUsuario(filaModelo);
     }
 
+
     private void eliminar() {
-        int fila = tabla.getSelectedRow();
+        int filaVista = tabla.getSelectedRow();
+
+        if (filaVista < 0) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Seleccione un usuario",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+        int fila = tabla.convertRowIndexToModel(filaVista);
         if (fila < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione un usuario", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;

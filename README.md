@@ -1,7 +1,3 @@
-# INTEGRACIÓN DE COMPETENCIAS II — Etapa I
-
-## si usan netbeans clonen el repo y asegurense de poner el connector de lib en las librerias.
-
 ```
 git clone https://github.com/luisSchleef/MVP-sistema-asistencia
 ```

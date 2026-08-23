@@ -2,7 +2,7 @@ package org.asistencias.ui;
 
 import org.asistencias.controller.login;
 import org.asistencias.model.user;
-
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -14,21 +14,31 @@ public class frmLogin extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(350, 180);
         setLocationRelativeTo(null);
+        setLayout(new GridLayout(1, 2));
 
-        JPanel panel = new JPanel(new GridLayout(3, 2, 8, 8));
-        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        FlatSVGIcon arrow = new FlatSVGIcon("icons/login-arrow.svg", 24,24);
+        FlatSVGIcon person = new FlatSVGIcon("icons/login.svg", 100,100);
+
+        JPanel panelLeft = new JPanel(new GridBagLayout());
+        JPanel panelRigt = new JPanel(new GridLayout(3, 1, 8, 8));
+        panelRigt.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         JTextField txtCorreo = new JTextField();
+        txtCorreo.putClientProperty("JTextField.placeholderText", "Correo");
         JPasswordField txtPass = new JPasswordField();
-        JButton btnIngresar = new JButton("Ingresar");
+        JButton btnIngresar = new JButton(arrow);
+        txtPass.putClientProperty("JTextField.placeholderText", "Contraseña");
 
-        panel.add(new JLabel("Correo:"));
-        panel.add(txtCorreo);
-        panel.add(new JLabel("Contraseña:"));
-        panel.add(txtPass);
-        panel.add(new JLabel());
-        panel.add(btnIngresar);
-        add(panel);
+        panelLeft.add(new JLabel(person));
+
+        panelRigt.add(txtCorreo);
+        panelRigt.add(txtPass);
+        panelRigt.add(btnIngresar);
+
+        aplicarCursorMano(btnIngresar);
+
+        add(panelLeft);
+        add(panelRigt);
 
         login login = new login();
         getRootPane().setDefaultButton(btnIngresar);
@@ -45,5 +55,13 @@ public class frmLogin extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+    public void aplicarCursorMano(JButton... botones) {
+        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        for (JButton btn : botones) {
+            if (btn != null) {
+                btn.setCursor(mano);
+            }
+        }
     }
 }

@@ -43,12 +43,10 @@ public class frmMenu extends JFrame {
         panel.add(btnEntrada);
         panel.add(btnSalida);
 
-        JButton btnAtrasos = null;
-        JButton btnInasistencias = null;
         if (esAdmin) {
-            btnAtrasos = new JButton("Reporte de Atrasos", reports);
+            JButton btnAtrasos = new JButton("Reporte de Atrasos", reports);
             JButton btnSalidas = new JButton("Reporte Salidas Anticipadas", reports);
-            btnInasistencias = new JButton("Reporte de Inasistencias", reports);
+            JButton btnInasistencias = new JButton("Reporte de Inasistencias", reports);
             JButton btnUsuarios = new JButton("Gestionar Usuarios", users);
             btnAtrasos.addActionListener(e -> abrirReporte("Reporte de Entradas Atrasadas (post 9:30)",
                     new String[]{"ID", "Nombre", "Fecha", "Hora Entrada"}, crud::reporteAtrasos));
@@ -61,11 +59,12 @@ public class frmMenu extends JFrame {
             panel.add(btnSalidas);
             panel.add(btnInasistencias);
             panel.add(btnUsuarios);
-            aplicarCursorMano(btnEntrada, btnSalida, btnAtrasos, btnInasistencias, btnUsuarios, btnCerrar, btnSalidas);
+            aplicarCursorMano(btnAtrasos, btnInasistencias, btnUsuarios, btnSalidas);
         }
         panel.add(btnCerrar);
         add(panel);
 
+        aplicarCursorMano(btnEntrada, btnSalida,btnCerrar);
 
         btnEntrada.addActionListener(e -> marcar(crud, usuario, "ENTRADA", btnEntrada));
         btnSalida.addActionListener(e -> marcar(crud, usuario, "SALIDA", btnSalida));

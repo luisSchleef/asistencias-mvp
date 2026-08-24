@@ -80,7 +80,7 @@ public class crud {
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int uid = rs.getInt(1);
-                    LocalDate dia = rs.getDate(2).toLocalDate();
+                    LocalDate dia = LocalDate.parse(rs.getString(2));
                     diasPorUsuario.computeIfAbsent(uid, k -> new HashSet<>()).add(dia);
                     primerDia.merge(uid, dia, (a, b) -> a.isBefore(b) ? a : b);
                     if (inicioGlobal == null || dia.isBefore(inicioGlobal)) inicioGlobal = dia;
@@ -128,7 +128,7 @@ public class crud {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nombre);
             ps.setString(2, correo);
-            ps.setString(3, login.sha256(contrasena));
+            ps.setString(3, contrasena);
             ps.setString(4, rol);
             ps.executeUpdate();
         }
@@ -144,7 +144,7 @@ public class crud {
             ps.setString(2, correo);
             ps.setString(3, rol);
             int i = 4;
-            if (contrasena != null && !contrasena.isEmpty()) ps.setString(i++, login.sha256(contrasena));
+            if (contrasena != null && !contrasena.isEmpty()) ps.setString(i++, contrasena);
             ps.setInt(i, id);
             ps.executeUpdate();
         }

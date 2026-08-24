@@ -17,25 +17,13 @@ public class login {
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, correo);
-            ps.setString(2, sha256(contrasena));
+            ps.setString(2, contrasena);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new user(rs.getInt("id"), rs.getString("nombre"), rs.getString("rol"));
                 }
                 return null;
             }
-        }
-    }
-
-    static String sha256(String texto) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(texto.getBytes());
-            StringBuilder sb = new StringBuilder(64);
-            for (byte b : hash) sb.append(String.format("%02x", b));
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
         }
     }
 }

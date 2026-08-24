@@ -12,8 +12,8 @@ public class dbConexion {
     }
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://" + env("DB_HOST", "localhost") + ":" + env("DB_PORT", "3306")
-                + "/" + env("DB_NAME", "asistencia_db");
-        return DriverManager.getConnection(url, env("DB_USER", "root"), env("DB_PASS", ""));
+        String url = "jdbc:sqlite:" + env("DB_NAME", "asistencia_db");
+
+        return DriverManager.getConnection(url);
     }
 }

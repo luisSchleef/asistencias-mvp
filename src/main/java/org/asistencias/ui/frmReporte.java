@@ -1,9 +1,13 @@
 package org.asistencias.ui;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class frmReporte extends JFrame {
 
@@ -19,6 +23,31 @@ public class frmReporte extends JFrame {
         };
         for (String[] fila : filas) modelo.addRow(fila);
 
-        add(new JScrollPane(new JTable(modelo)), BorderLayout.CENTER);
+        JTable tabla = new JTable(modelo);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        tabla.setRowSorter(sorter);
+
+        JTextField txtBuscar = new JTextField();
+        txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
+        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { buscar(); }
+            public void removeUpdate(DocumentEvent e) { buscar(); }
+            public void changedUpdate(DocumentEvent e) { buscar(); }
+            private void buscar() {
+                String texto = txtBuscar.getText().trim();
+                sorter.setRowFilter(texto.isEmpty() ? null
+                        : RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
+            }
+        });
+
+        JPanel buscar = new JPanel(new GridLayout(1, 4, 6, 0));
+        buscar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        buscar.add(txtBuscar);
+        buscar.add(new JLabel(""));
+        buscar.add(txtBuscar);
+        buscar.add(new JLabel(""));
+
+        add(buscar, BorderLayout.NORTH);
+        add(new JScrollPane(tabla), BorderLayout.CENTER);
     }
 }

@@ -33,8 +33,7 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### otros (como el .env tiene variables de testeo no hay problemas)###
+### otros ###
 .codegraph
-.env
 /.claude/
 /.agents/

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class login {
 
-    public user autenticar(String correo, String contrasena) throws SQLException {
+    public static user autenticar(String correo, String contrasena) throws SQLException {
         String sql = "SELECT id, nombre, rol FROM usuarios WHERE correo = ? AND contrasena = ?";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -40,7 +40,6 @@ public class frmLogin extends JFrame {
         add(panelLeft);
         add(panelRigt);
 
-        login login = new login();
         getRootPane().setDefaultButton(btnIngresar);
         btnIngresar.addActionListener(e -> {
             try {

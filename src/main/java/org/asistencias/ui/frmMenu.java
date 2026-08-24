@@ -12,7 +12,7 @@ import java.util.List;
 public class frmMenu extends JFrame {
 
     public frmMenu(user usuario) {
-        boolean esAdmin = "ADMIN".equals(usuario.getRol());
+        boolean esAdmin = "ADMIN".equals(usuario.rol());
         setTitle("Control de Asistencia");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, esAdmin ? 320 : 240);
@@ -34,7 +34,7 @@ public class frmMenu extends JFrame {
 
         crud crud = new crud();
 
-        JLabel lblBienvenida = new JLabel("Hola, " + usuario.getNombre(), SwingConstants.CENTER);
+        JLabel lblBienvenida = new JLabel("Hola, " + usuario.nombre(), SwingConstants.CENTER);
         lblBienvenida.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         add(lblBienvenida, BorderLayout.NORTH);
 
@@ -92,7 +92,7 @@ public class frmMenu extends JFrame {
 
     private void marcar(crud crud, user usuario, String tipo, JButton boton) {
         try {
-            crud.registrar(usuario.getId(), tipo);
+            crud.registrar(usuario.id(), tipo);
             JOptionPane.showMessageDialog(this, tipo + " registrada correctamente");
             boton.setEnabled(false);
             Timer timer = new Timer(30_000, e -> boton.setEnabled(true));

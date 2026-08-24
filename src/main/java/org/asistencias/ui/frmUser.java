@@ -202,12 +202,8 @@ public class frmUser extends JFrame {
             return;
         }
         int fila = tabla.convertRowIndexToModel(filaVista);
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(this, "Seleccione un usuario", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
         int id = Integer.parseInt((String) modelo.getValueAt(fila, 0));
-        if (id == admin.getId()) {
+        if (id == admin.id()) {
             JOptionPane.showMessageDialog(this, "No puede eliminar su propio usuario",
                     "Aviso", JOptionPane.WARNING_MESSAGE);
             return;

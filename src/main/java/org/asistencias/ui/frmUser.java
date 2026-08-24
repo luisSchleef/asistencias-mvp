@@ -50,21 +50,16 @@ public class frmUser extends JFrame {
         JButton btnModificar = new JButton("Modificar", modificar);
         JButton btnEliminar = new JButton("Eliminar", eliminar);
         JTextField txtBuscar = new JTextField();
+
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
         txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                buscar(txtBuscar.getText());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                buscar(txtBuscar.getText());
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                buscar(txtBuscar.getText());
+            public void insertUpdate(DocumentEvent e) { buscar(); }
+            public void removeUpdate(DocumentEvent e) { buscar(); }
+            public void changedUpdate(DocumentEvent e) { buscar(); }
+            private void buscar() {
+                String texto = txtBuscar.getText().trim();
+                sorter.setRowFilter(texto.isEmpty() ? null
+                        : RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
             }
         });
 

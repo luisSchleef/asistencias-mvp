@@ -2,9 +2,6 @@
 
 Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y venta de productos químicos ha solicitado la creación de un Mínimo Producto Viable (MVP) para un sistema de registro de asistencia de empleados. La empresa necesita una **aplicación de escritorio** que permita gestionar eficientemente la entrada y salida de sus trabajadores y trabajadoras. Esta solicitud es fundamental para mejorar la organización interna y asegurar el cumplimiento de las normativas laborales, además de optimizar la administración del tiempo y los recursos humanos.
 
-```
-git clone https://github.com/luisSchleef/asistencias-mvp
-```
 | Login                                                                                          | Menu                                                                                       |
 |------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | <img alt="login image" title="login" src="src/main/resources/images/login.png" /> | <img alt="menu image" title="menu" src="src/main/resources/images/menu.png" /> |
@@ -120,3 +117,11 @@ git clone https://github.com/luisSchleef/asistencias-mvp
     3. El sistema confirma la acción de eliminación.
     4. El sistema elimina al usuario seleccionado.
 - **Postcondiciones:** El usuario es eliminado del sistema.
+
+## Stack de desarrollo
+
+| Capa                        | Tecnología      |
+|-----------------------------|-----------------|
+| Lenguaje                    | Java 17         |
+| Build                       | Maven           |
+| Base de datos               | SQLite          |

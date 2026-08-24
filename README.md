@@ -5,6 +5,14 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
 ```
 git clone https://github.com/luisSchleef/asistencias-mvp
 ```
+| Login                                                                                          | Menu                                                                                       |
+|------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| <img alt="login image" title="login" src="src/main/resources/images/login.png" /> | <img alt="menu image" title="menu" src="src/main/resources/images/menu.png" /> |
+
+| Report                                                                             | Usuarios                                                                                       |
+|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| <img alt="login image" title="login" src="src/main/resources/images/report.png" /> | <img alt="menu image" title="menu" src="src/main/resources/images/usuarios.png" /> |
+
 ## Requerimientos Funcionales
 
 | Requerimiento                   | Descripción |

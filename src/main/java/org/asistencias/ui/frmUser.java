@@ -6,14 +6,10 @@ import org.asistencias.model.user;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.TableRowSorter;
-import java.util.regex.Pattern;
 
 
 public class frmUser extends JFrame {
@@ -52,16 +48,7 @@ public class frmUser extends JFrame {
         JTextField txtBuscar = new JTextField();
 
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
-        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) { buscar(); }
-            public void removeUpdate(DocumentEvent e) { buscar(); }
-            public void changedUpdate(DocumentEvent e) { buscar(); }
-            private void buscar() {
-                String texto = txtBuscar.getText().trim();
-                sorter.setRowFilter(texto.isEmpty() ? null
-                        : RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
-            }
-        });
+        filtroBusqueda.escuchar(txtBuscar, sorter);
 
 
         JPanel botones = new JPanel();
@@ -103,20 +90,6 @@ public class frmUser extends JFrame {
         } catch (SQLException ex) {
             error("Error al cargar usuarios", ex);
         }
-    }
-
-    private void buscar(String texto) {
-        String busqueda = texto.trim();
-
-        if (busqueda.isEmpty()) {
-            sorter.setRowFilter(null);
-            return;
-        }
-
-        sorter.setRowFilter(RowFilter.regexFilter(
-                "(?i)" + Pattern.quote(busqueda),
-                0, 1, 2, 3
-        ));
     }
 
     private void dialogoUsuario(Integer filaSeleccionada) {

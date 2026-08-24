@@ -3,8 +3,6 @@ package org.asistencias.controller;
 import org.asistencias.db.dbConexion;
 import org.asistencias.model.user;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

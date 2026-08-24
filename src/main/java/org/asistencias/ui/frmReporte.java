@@ -1,13 +1,10 @@
 package org.asistencias.ui;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class frmReporte extends JFrame {
 
@@ -29,16 +26,7 @@ public class frmReporte extends JFrame {
 
         JTextField txtBuscar = new JTextField();
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
-        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) { buscar(); }
-            public void removeUpdate(DocumentEvent e) { buscar(); }
-            public void changedUpdate(DocumentEvent e) { buscar(); }
-            private void buscar() {
-                String texto = txtBuscar.getText().trim();
-                sorter.setRowFilter(texto.isEmpty() ? null
-                        : RowFilter.regexFilter("(?i)" + Pattern.quote(texto)));
-            }
-        });
+        filtroBusqueda.escuchar(txtBuscar, sorter);
 
         JPanel buscar = new JPanel(new GridLayout(1, 4, 6, 0));
         buscar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));

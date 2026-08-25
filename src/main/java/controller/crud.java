@@ -1,6 +1,6 @@
-package org.asistencias.controller;
+package controller;
 
-import org.asistencias.db.dbConexion;
+import db.dbConexion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

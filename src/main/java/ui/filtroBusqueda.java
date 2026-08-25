@@ -1,4 +1,4 @@
-package org.asistencias.ui;
+package ui;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

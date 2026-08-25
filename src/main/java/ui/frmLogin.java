@@ -1,7 +1,7 @@
-package org.asistencias.ui;
+package ui;
 
-import org.asistencias.controller.login;
-import org.asistencias.model.user;
+import controller.login;
+import model.user;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.awt.*;

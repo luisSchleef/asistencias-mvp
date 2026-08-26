@@ -105,6 +105,27 @@ public class crud {
         return filas;
     }
 
+    public List<String[]> listarAsistencias() throws SQLException {
+        String sql = "SELECT a.id, u.nombre, a.tipo, DATE(a.fecha_hora), TIME(a.fecha_hora) "
+                   + "FROM asistencias a JOIN usuarios u ON u.id = a.usuario_id "
+                   + "ORDER BY a.fecha_hora DESC";
+        List<String[]> filas = new ArrayList<>();
+        try (Connection conn = dbConexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                filas.add(new String[]{
+                    String.valueOf(rs.getInt(1)),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5)
+                });
+            }
+        }
+        return filas;
+    }
+
     public List<String[]> listarUsuarios() throws SQLException {
         List<String[]> filas = new ArrayList<>();
         try (Connection conn = dbConexion.getConnection();

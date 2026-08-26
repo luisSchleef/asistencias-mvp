@@ -20,7 +20,7 @@ public class crud {
 
     // Registrar Entrada y salida
     public void registrar(int usuarioId, String tipo) throws SQLException {
-        String sql = "INSERT INTO asistencias (usuario_id, tipo) VALUES (?, ?)";
+        String sql = "INSERT INTO asistencias (usuario_id, tipo, fecha_hora) VALUES (?, ? , datetime('now','localtime'))";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, usuarioId);
@@ -100,6 +100,27 @@ public class crud {
                 if (!dias.contains(d)) {
                     filas.add(new String[]{String.valueOf(uid), u.getValue(), d.toString()});
                 }
+            }
+        }
+        return filas;
+    }
+
+    public List<String[]> listarAsistencias() throws SQLException {
+        String sql = "SELECT a.id, u.nombre, a.tipo, DATE(a.fecha_hora), TIME(a.fecha_hora) "
+                   + "FROM asistencias a JOIN usuarios u ON u.id = a.usuario_id "
+                   + "ORDER BY a.fecha_hora DESC";
+        List<String[]> filas = new ArrayList<>();
+        try (Connection conn = dbConexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                filas.add(new String[]{
+                    String.valueOf(rs.getInt(1)),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5)
+                });
             }
         }
         return filas;

@@ -24,6 +24,7 @@ public class frmMenu extends JFrame {
         FlatSVGIcon arrowLeft = new FlatSVGIcon("icons/arrow-left.svg", 24, 24);
         FlatSVGIcon users = new FlatSVGIcon("icons/users.svg", 24, 24);
         FlatSVGIcon reports = new FlatSVGIcon("icons/reports.svg", 24, 24);
+        FlatSVGIcon asistencia = new FlatSVGIcon("icons/asistencia.svg", 24, 24);
 
 
         JButton btnEntrada = new JButton("Marcar Entrada", arrowUp);
@@ -44,22 +45,26 @@ public class frmMenu extends JFrame {
         panel.add(btnSalida);
 
         if (esAdmin) {
-            JButton btnAtrasos = new JButton("Reporte de Atrasos", reports);
-            JButton btnSalidas = new JButton("Reporte Salidas Anticipadas", reports);
-            JButton btnInasistencias = new JButton("Reporte de Inasistencias", reports);
+            JButton btnAtrasos = new JButton("Atrasos", reports);
+            JButton btnSalidas = new JButton("Salidas Anticipadas", reports);
+            JButton btnInasistencias = new JButton("Inasistencias", reports);
             JButton btnUsuarios = new JButton("Gestionar Usuarios", users);
-            btnAtrasos.addActionListener(e -> abrirReporte("Reporte de Entradas Atrasadas (post 9:30)",
+            JButton btnAsistencia = new JButton("Asistencia", asistencia);
+            btnAtrasos.addActionListener(e -> abrirReporte("Registro Atrasos (post 9:30)",
                     new String[]{"ID", "Nombre", "Fecha", "Hora Entrada"}, crud::reporteAtrasos));
-            btnSalidas.addActionListener(e -> abrirReporte("Reporte de Salidas Anticipadas (antes de 17:30)",
+            btnSalidas.addActionListener(e -> abrirReporte("Registro Salidas Anticipadas (antes de 17:30)",
                     new String[]{"ID", "Nombre", "Fecha", "Hora Salida"}, crud::reporteSalidasAnticipadas));
-            btnInasistencias.addActionListener(e -> abrirReporte("Reporte de Inasistencias (lun-vie)",
+            btnInasistencias.addActionListener(e -> abrirReporte("Registro Inasistencias (lun-vie)",
                     new String[]{"ID", "Nombre", "Fecha Ausencia"}, crud::reporteInasistencias));
             btnUsuarios.addActionListener(e -> new frmUser(usuario).setVisible(true));
+            btnAsistencia.addActionListener(e -> abrirReporte("Registro de Asistencias",
+                    new String[]{"ID", "Nombre", "Tipo", "Fecha", "Hora"}, crud::listarAsistencias));
+            panel.add(btnAsistencia);
+            panel.add(btnUsuarios);
             panel.add(btnAtrasos);
             panel.add(btnSalidas);
             panel.add(btnInasistencias);
-            panel.add(btnUsuarios);
-            aplicarCursorMano(btnAtrasos, btnInasistencias, btnUsuarios, btnSalidas);
+            aplicarCursorMano(btnAtrasos, btnInasistencias, btnUsuarios, btnSalidas, btnAsistencia);
         }
         panel.add(btnCerrar);
         add(panel);

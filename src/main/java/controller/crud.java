@@ -20,7 +20,7 @@ public class crud {
 
     // Registrar Entrada y salida
     public void registrar(int usuarioId, String tipo) throws SQLException {
-        String sql = "INSERT INTO asistencias (usuario_id, tipo) VALUES (?, ?)";
+        String sql = "INSERT INTO asistencias (usuario_id, tipo, fecha_hora) VALUES (?, ? , datetime('now','localtime'))";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, usuarioId);

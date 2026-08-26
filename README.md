@@ -4,11 +4,11 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
 
 | Login                                                                                          | Menu                                                                                       |
 |------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| <img alt="login image" title="login" src="src/main/resources/images/login.png" /> | <img alt="menu image" title="menu" src="src/main/resources/images/menu.png" /> |
+| <img width="336" height="173" alt="Captura de pantalla 2026-08-26 005544" src="https://github.com/user-attachments/assets/e1a63daa-8cff-4c27-86e9-fd1e667560d5" /> | <img width="486" height="313" alt="Captura de pantalla 2026-08-26 005558" src="https://github.com/user-attachments/assets/0f736951-08ee-460f-a00a-2d0f30237451" /> |
 
-| Report                                                                             | Usuarios                                                                                       |
+| Asistencia                                                                             | Usuarios                                                                                       |
 |------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| <img alt="login image" title="login" src="src/main/resources/images/report.png" /> | <img alt="menu image" title="menu" src="src/main/resources/images/usuarios.png" /> |
+|<img width="586" height="393" alt="Captura de pantalla 2026-08-26 005616" src="https://github.com/user-attachments/assets/02d789ad-05d6-404f-819e-327cd5235e1a" /> | <img width="626" height="413" alt="Captura de pantalla 2026-08-26 005654" src="https://github.com/user-attachments/assets/ca4dc305-1dd0-41c3-b77a-7b892572201a" /> |
 
 ## Requerimientos Funcionales
 

@@ -26,7 +26,7 @@ public class frmReporte extends JFrame {
 
         JTextField txtBuscar = new JTextField();
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
-        filtroBusqueda.escuchar(txtBuscar, sorter);
+        utils.escuchar(txtBuscar, sorter);
 
         JPanel buscar = new JPanel(new GridLayout(1, 4, 6, 0));
         buscar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));

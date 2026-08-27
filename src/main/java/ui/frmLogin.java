@@ -35,7 +35,7 @@ public class frmLogin extends JFrame {
         panelRigt.add(txtPass);
         panelRigt.add(btnIngresar);
 
-        aplicarCursorMano(btnIngresar);
+        utils.aplicarCursorMano(btnIngresar);
 
         add(panelLeft);
         add(panelRigt);
@@ -54,13 +54,5 @@ public class frmLogin extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-    }
-    public void aplicarCursorMano(JButton... botones) {
-        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-        for (JButton btn : botones) {
-            if (btn != null) {
-                btn.setCursor(mano);
-            }
-        }
     }
 }

@@ -64,12 +64,12 @@ public class frmMenu extends JFrame {
             panel.add(btnAtrasos);
             panel.add(btnSalidas);
             panel.add(btnInasistencias);
-            aplicarCursorMano(btnAtrasos, btnInasistencias, btnUsuarios, btnSalidas, btnAsistencia);
+            utils.aplicarCursorMano(btnAtrasos, btnInasistencias, btnUsuarios, btnSalidas, btnAsistencia);
         }
         panel.add(btnCerrar);
         add(panel);
 
-        aplicarCursorMano(btnEntrada, btnSalida,btnCerrar);
+       utils.aplicarCursorMano(btnEntrada, btnSalida,btnCerrar);
 
         btnEntrada.addActionListener(e -> marcar(crud, usuario, "ENTRADA", btnEntrada));
         btnSalida.addActionListener(e -> marcar(crud, usuario, "SALIDA", btnSalida));
@@ -77,14 +77,6 @@ public class frmMenu extends JFrame {
             new frmLogin().setVisible(true);
             dispose();
         });
-    }
-    public void aplicarCursorMano(JButton... botones) {
-        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-        for (JButton btn : botones) {
-            if (btn != null) {
-                btn.setCursor(mano);
-            }
-        }
     }
 
     private void abrirReporte(String titulo, String[] columnas, java.util.concurrent.Callable<List<String[]>> carga) {

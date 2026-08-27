@@ -48,7 +48,7 @@ public class frmUser extends JFrame {
         JTextField txtBuscar = new JTextField();
 
         txtBuscar.putClientProperty("JTextField.placeholderText", "Buscar...");
-        filtroBusqueda.escuchar(txtBuscar, sorter);
+        utils.escuchar(txtBuscar, sorter);
 
 
         JPanel botones = new JPanel();
@@ -70,16 +70,8 @@ public class frmUser extends JFrame {
         btnModificar.addActionListener(e -> modificar());
         btnEliminar.addActionListener(e -> eliminar());
 
-        aplicarCursorMano(btnCrear, btnEliminar, btnModificar);
+        utils.aplicarCursorMano(btnCrear, btnEliminar, btnModificar);
         cargar();
-    }
-    public void aplicarCursorMano(JButton... botones) {
-        Cursor mano = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-        for (JButton btn : botones) {
-            if (btn != null) {
-                btn.setCursor(mano);
-            }
-        }
     }
 
     private void cargar() {

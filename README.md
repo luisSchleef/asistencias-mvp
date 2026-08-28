@@ -125,3 +125,31 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
 | Lenguaje                    | Java 17         |
 | Build                       | Maven           |
 | Base de datos               | SQLite          |
+
+## Organización del proyecto
+
+```text
+Asistencias-mvp/
+├── pom.xml                      # Configuración de Maven y dependencias
+├── asistencia_db                # Base de datos SQLite
+└── src/main/
+    ├── java/
+    │   ├── Main.java            # Punto de entrada: aplica el tema FlatLaf y abre el login
+    │   ├── controller/
+    │   │   ├── login.java       # Autenticación de usuarios (correo + contraseña)
+    │   │   └── crud.java        # Operaciones CRUD sobre usuarios y asistencia
+    │   ├── db/
+    │   │   └── dbConexion.java  # Conexión JDBC a la base de datos SQLite
+    │   ├── model/
+    │   │   └── user.java        # Modelo de datos del usuario
+    │   └── ui/
+    │       ├── frmLogin.java    # Ventana de inicio de sesión
+    │       ├── frmMenu.java     # Ventana principal con el menú
+    │       ├── frmUser.java     # Ventana de gestión de usuarios (crear/modificar/eliminar)
+    │       ├── frmReporte.java  # Ventana de reportes (atrasos, salidas anticipadas, inasistencias)
+    │       └── utils.java       # Utilidades de UI (filtros de búsqueda, etc.)
+    └── resources/
+        └── icons/               # Iconos SVG usados por FlatSVGIcon en las ventanas
+```
+
+Cada capa tiene una responsabilidad única: `ui` contiene las ventanas Swing, `controller` la lógica de negocio (autenticación y CRUD), `model` las entidades y `db` el acceso a la base de datos.

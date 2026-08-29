@@ -103,7 +103,13 @@ public class frmUser extends JFrame {
         JTextField txtCorreo = new JTextField(correoIni, 15);
         JPasswordField txtPass = new JPasswordField(15);
         JPasswordField txtPass2 = new JPasswordField(15);
-        JComboBox<String> cmbRol = new JComboBox<>(new String[]{"EMPLEADO", "ADMIN"});
+        JComboBox<String> cmbRol;
+        try {
+            cmbRol = new JComboBox<>(crud.listarRoles().stream().map(f -> f[0]).toArray(String[]::new));
+        } catch (SQLException ex) {
+            error("Error al cargar roles", ex);
+            return;
+        }
         cmbRol.setSelectedItem(rolIni);
         if (JOptionPane.showConfirmDialog(this, formulario(txtNombre, txtCorreo, txtPass, txtPass2, cmbRol),
                 editar ? "Modificar Usuario (contraseña vacía = sin cambio)" : "Crear Usuario",

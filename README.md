@@ -153,3 +153,27 @@ Asistencias-mvp/
 ```
 
 Cada capa tiene una responsabilidad única: `ui` contiene las ventanas Swing, `controller` la lógica de negocio (autenticación y CRUD), `model` las entidades y `db` el acceso a la base de datos.
+
+## Script de la base de datos
+
+```sql
+CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,         
+    correo TEXT NOT NULL UNIQUE,
+    contrasena TEXT NOT NULL,
+    rol TEXT NOT NULL DEFAULT 'EMPLEADO',
+    CONSTRAINT chk_rol CHECK (rol IN ('ADMIN', 'EMPLEADO'))
+);
+
+CREATE TABLE asistencias (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NOT NULL,
+    tipo TEXT NOT NULL,
+    fecha_hora TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    CONSTRAINT chk_tipo CHECK (tipo IN ('ENTRADA', 'SALIDA'))
+);
+```
+
+El script corresponde al esquema actual de `asistencia_db`, la base SQLite que la app abre con ruta relativa desde la raíz del proyecto.

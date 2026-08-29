@@ -21,7 +21,7 @@ public class crud {
 
     // Registrar Entrada y salida
     public void registrar(int usuarioId, String tipo) throws SQLException {
-        String sql = "INSERT INTO asistencias (usuario_id, tipo, fecha_hora) VALUES (?, ? , datetime('now','localtime'))";
+        String sql = "INSERT INTO asistencias (usuario_id, tipo_id, fecha, hora) VALUES (?, (SELECT id FROM tipos_asistencia WHERE nombre = ?), DATE('now','localtime'), TIME('now','localtime'))";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, usuarioId);
@@ -32,10 +32,11 @@ public class crud {
 
     // Registra la hora cuando se registra
     private List<String[]> registroPorHora(String tipo, String operador, String hora) throws SQLException {
-        String sql = "SELECT u.id, u.nombre, DATE(a.fecha_hora), TIME(a.fecha_hora) "
+        String sql = "SELECT u.id, u.nombre, a.fecha, a.hora "
                    + "FROM asistencias a JOIN usuarios u ON u.id = a.usuario_id "
-                   + "WHERE a.tipo = ? AND TIME(a.fecha_hora) " + operador + " ? "
-                   + "ORDER BY a.fecha_hora DESC";
+                   + "JOIN tipos_asistencia t ON t.id = a.tipo_id "
+                   + "WHERE t.nombre = ? AND a.hora " + operador + " ? "
+                   + "ORDER BY a.fecha DESC, a.hora DESC";
         List<String[]> filas = new ArrayList<>();
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -77,7 +78,7 @@ public class crud {
                 while (rs.next()) usuarios.put(rs.getInt(1), rs.getString(2));
             }
             try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT DISTINCT usuario_id, DATE(fecha_hora) FROM asistencias");
+                    "SELECT DISTINCT usuario_id, fecha FROM asistencias");
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int uid = rs.getInt(1);
@@ -107,9 +108,10 @@ public class crud {
     }
 
     public List<String[]> listarAsistencias() throws SQLException {
-        String sql = "SELECT a.id, u.nombre, a.tipo, DATE(a.fecha_hora), TIME(a.fecha_hora) "
+        String sql = "SELECT a.id, u.nombre, t.nombre, a.fecha, a.hora "
                    + "FROM asistencias a JOIN usuarios u ON u.id = a.usuario_id "
-                   + "ORDER BY a.fecha_hora DESC";
+                   + "JOIN tipos_asistencia t ON t.id = a.tipo_id "
+                   + "ORDER BY a.fecha DESC, a.hora DESC";
         List<String[]> filas = new ArrayList<>();
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -130,7 +132,8 @@ public class crud {
     public List<String[]> listarUsuarios() throws SQLException {
         List<String[]> filas = new ArrayList<>();
         try (Connection conn = dbConexion.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT id, nombre, correo, rol FROM usuarios ORDER BY id");
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT u.id, u.nombre, u.correo, r.nombre FROM usuarios u JOIN roles r ON r.id = u.rol_id ORDER BY u.id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 filas.add(new String[]{
@@ -144,8 +147,18 @@ public class crud {
         return filas;
     }
 
+    public List<String[]> listarRoles() throws SQLException {
+        List<String[]> filas = new ArrayList<>();
+        try (Connection conn = dbConexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT nombre FROM roles ORDER BY id");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) filas.add(new String[]{rs.getString(1)});
+        }
+        return filas;
+    }
+
     public void crearUsuario(String nombre, String correo, String contrasena, String rol) throws SQLException {
-        String sql = "INSERT INTO usuarios (nombre, correo, contrasena, rol) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nombre, correo, contrasena, rol_id) VALUES (?, ?, ?, (SELECT id FROM roles WHERE nombre = ?))";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nombre);
@@ -157,7 +170,7 @@ public class crud {
     }
 
     public void actualizarUsuario(int id, String nombre, String correo, String contrasena, String rol) throws SQLException {
-        String sql = "UPDATE usuarios SET nombre = ?, correo = ?, rol = ?"
+        String sql = "UPDATE usuarios SET nombre = ?, correo = ?, rol_id = (SELECT id FROM roles WHERE nombre = ?)"
                    + (contrasena == null || contrasena.isEmpty() ? "" : ", contrasena = ?")
                    + " WHERE id = ?";
         try (Connection conn = dbConexion.getConnection();
@@ -180,4 +193,5 @@ public class crud {
             ps.executeUpdate();
         }
     }
+
 }

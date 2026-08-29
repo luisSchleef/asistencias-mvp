@@ -12,7 +12,8 @@ import java.sql.SQLException;
 public class login {
 
     public static user autenticar(String correo, String contrasena) throws SQLException {
-        String sql = "SELECT id, nombre, rol, contrasena FROM usuarios WHERE correo = ?";
+        String sql = "SELECT u.id, u.nombre, r.nombre AS rol, u.contrasena "
+                   + "FROM usuarios u JOIN roles r ON r.id = u.rol_id WHERE u.correo = ?";
         try (Connection conn = dbConexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, correo);

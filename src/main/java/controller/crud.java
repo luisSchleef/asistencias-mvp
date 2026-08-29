@@ -1,6 +1,7 @@
 package controller;
 
 import db.dbConexion;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -149,7 +150,7 @@ public class crud {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nombre);
             ps.setString(2, correo);
-            ps.setString(3, contrasena);
+            ps.setString(3, BCrypt.hashpw(contrasena, BCrypt.gensalt()));
             ps.setString(4, rol);
             ps.executeUpdate();
         }
@@ -165,7 +166,7 @@ public class crud {
             ps.setString(2, correo);
             ps.setString(3, rol);
             int i = 4;
-            if (contrasena != null && !contrasena.isEmpty()) ps.setString(i++, contrasena);
+            if (contrasena != null && !contrasena.isEmpty()) ps.setString(i++, BCrypt.hashpw(contrasena, BCrypt.gensalt()));
             ps.setInt(i, id);
             ps.executeUpdate();
         }

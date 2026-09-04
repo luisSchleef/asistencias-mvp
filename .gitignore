@@ -34,6 +34,11 @@ build/
 .DS_Store
 
 ### otros ###
+# Base de datos SQLite local (no versionar datos)
+/asistencia_db
+/asistencia_db-journal
+/asistencia_db-wal
+/asistencia_db-shm
 .codegraph
 /.claude/
 /.agents/

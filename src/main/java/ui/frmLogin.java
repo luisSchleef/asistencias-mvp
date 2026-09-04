@@ -51,7 +51,7 @@ public class frmLogin extends JFrame {
                     JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error de base de datos. Intente nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

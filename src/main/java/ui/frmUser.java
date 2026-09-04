@@ -77,9 +77,9 @@ public class frmUser extends JFrame {
     private void cargar() {
         modelo.setRowCount(0);
         try {
-            List<String[]> filas = crud.listarUsuarios();
+            List<String[]> filas = crud.listarUsuarios(admin);
             for (String[] fila : filas) modelo.addRow(fila);
-        } catch (SQLException ex) {
+        } catch (SQLException | SecurityException ex) {
             error("Error al cargar usuarios", ex);
         }
     }
@@ -105,7 +105,7 @@ public class frmUser extends JFrame {
         JPasswordField txtPass2 = new JPasswordField(15);
         JComboBox<String> cmbRol;
         try {
-            cmbRol = new JComboBox<>(crud.listarRoles().stream().map(f -> f[0]).toArray(String[]::new));
+            cmbRol = new JComboBox<>(crud.listarRoles(admin).stream().map(f -> f[0]).toArray(String[]::new));
         } catch (SQLException ex) {
             error("Error al cargar roles", ex);
             return;
@@ -128,15 +128,20 @@ public class frmUser extends JFrame {
                     "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            JOptionPane.showMessageDialog(this, "El formato del correo no es válido",
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         try {
             if (editar) {
-                crud.actualizarUsuario(id, nombre, correo, pass, (String) cmbRol.getSelectedItem());
+                crud.actualizarUsuario(admin, id, nombre, correo, pass, (String) cmbRol.getSelectedItem());
             } else {
-                crud.crearUsuario(nombre, correo, pass, (String) cmbRol.getSelectedItem());
+                crud.crearUsuario(admin, nombre, correo, pass, (String) cmbRol.getSelectedItem());
             }
             JOptionPane.showMessageDialog(this, "Usuario " + (editar ? "modificado" : "creado") + " correctamente");
             cargar();
-        } catch (SQLException ex) {
+        } catch (SQLException | SecurityException ex) {
             error("Error al " + (editar ? "modificar" : "crear") + " usuario", ex);
         }
     }
@@ -178,10 +183,10 @@ public class frmUser extends JFrame {
                 "¿Eliminar a " + modelo.getValueAt(fila, 1) + "? También se eliminarán sus registros de asistencia.",
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION) return;
         try {
-            crud.eliminarUsuario(id);
+            crud.eliminarUsuario(admin, id);
             JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente");
             cargar();
-        } catch (SQLException ex) {
+        } catch (SQLException | SecurityException ex) {
             error("Error al eliminar usuario", ex);
         }
     }
@@ -202,7 +207,21 @@ public class frmUser extends JFrame {
         return p;
     }
 
-    private void error(String mensaje, SQLException ex) {
-        JOptionPane.showMessageDialog(this, mensaje + ": " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    private void error(String mensaje, Exception ex) {
+        String detalle;
+        if (esDuplicado(ex)) {
+            detalle = "El correo ya está registrado";
+        } else {
+            detalle = ex.getMessage();
+        }
+        JOptionPane.showMessageDialog(this, mensaje + ": " + detalle, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private static boolean esDuplicado(Exception ex) {
+        if (ex instanceof SQLException sqlEx) {
+            return sqlEx.getErrorCode() == 19 && sqlEx.getMessage() != null
+                    && sqlEx.getMessage().toUpperCase().contains("UNIQUE");
+        }
+        return false;
     }
 }

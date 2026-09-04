@@ -131,49 +131,74 @@ Una pequeña empresa de 25 trabajadores y trabajadoras dedicada a la compra y ve
 ```text
 Asistencias-mvp/
 ├── pom.xml                      # Configuración de Maven y dependencias
-├── asistencia_db                # Base de datos SQLite
-└── src/main/
-    ├── java/
-    │   ├── Main.java            # Punto de entrada: aplica el tema FlatLaf y abre el login
-    │   ├── controller/
-    │   │   ├── login.java       # Autenticación de usuarios (correo + contraseña)
-    │   │   └── crud.java        # Operaciones CRUD sobre usuarios y asistencia
-    │   ├── db/
-    │   │   └── dbConexion.java  # Conexión JDBC a la base de datos SQLite
-    │   ├── model/
-    │   │   └── user.java        # Modelo de datos del usuario
-    │   └── ui/
-    │       ├── frmLogin.java    # Ventana de inicio de sesión
-    │       ├── frmMenu.java     # Ventana principal con el menú
-    │       ├── frmUser.java     # Ventana de gestión de usuarios (crear/modificar/eliminar)
-    │       ├── frmReporte.java  # Ventana de reportes (atrasos, salidas anticipadas, inasistencias)
-    │       └── utils.java       # Utilidades de UI (filtros de búsqueda, etc.)
-    └── resources/
-        └── icons/               # Iconos SVG usados por FlatSVGIcon en las ventanas
+├── asistencia_db                # Base de datos SQLite (local, no versionada)
+└── src/
+    ├── main/
+    │   ├── java/
+    │   │   ├── Main.java            # Punto de entrada: aplica el tema FlatLaf y abre el login
+    │   │   ├── controller/
+    │   │   │   ├── login.java       # Autenticación de usuarios (correo + BCrypt)
+    │   │   │   └── crud.java        # Operaciones CRUD sobre usuarios y asistencia (valida rol)
+    │   │   ├── db/
+    │   │   │   └── dbConexion.java  # Conexión JDBC a SQLite + inicialización automática
+    │   │   ├── model/
+    │   │   │   └── user.java        # Modelo de datos del usuario
+    │   │   └── ui/
+    │   │       ├── frmLogin.java    # Ventana de inicio de sesión
+    │   │       ├── frmMenu.java     # Ventana principal con el menú
+    │   │       ├── frmUser.java     # Ventana de gestión de usuarios (crear/modificar/eliminar)
+    │   │       ├── frmReporte.java  # Ventana de reportes (atrasos, salidas anticipadas, inasistencias)
+    │   │       └── utils.java       # Utilidades de UI (filtros de búsqueda, etc.)
+    │   └── resources/
+    │       ├── db/
+    │       │   └── init.sql         # Esquema + datos semilla (roles, tipos, admin)
+    │       └── icons/               # Iconos SVG usados por FlatSVGIcon en las ventanas
+    └── test/
+        └── java/
+            └── controller/
+                └── crudTest.java    # Pruebas JUnit de autenticación y CRUD
 ```
 
 Cada capa tiene una responsabilidad única: `ui` contiene las ventanas Swing, `controller` la lógica de negocio (autenticación y CRUD), `model` las entidades y `db` el acceso a la base de datos.
 
-## Script de la base de datos
+## Base de datos
+
+- `asistencia_db` es un archivo SQLite **local**: no se versiona en git (ver `.gitignore`). Cada clone lo crea solo.
+- Si el archivo no existe, `dbConexion` ejecuta automáticamente `src/main/resources/db/init.sql`, que crea el esquema y datos semilla.
+- La ruta es configurable:
+  - Property de sistema: `-Dasistencias.db=/ruta/a/la/base` (usada por los tests)
+  - Variable de entorno: `ASISTENCIAS_DB=/ruta/a/la/base`
+  - Por defecto: `asistencia_db` en el CWD (ejecutar desde la raíz del proyecto o configurar Working directory = raíz en IntelliJ)
+- Las contraseñas se almacenan como hash BCrypt.
+- Usuario semilla creado por `init.sql`: correo `luis@empresa.cl`, contraseña `admin123` (cambiarla al primer uso).
 
 ```sql
+-- Extracto del esquema (completo en src/main/resources/db/init.sql)
+CREATE TABLE roles (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL UNIQUE);
+CREATE TABLE tipos_asistencia (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL UNIQUE);
 CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,         
+    nombre TEXT NOT NULL,
     correo TEXT NOT NULL UNIQUE,
-    contrasena TEXT NOT NULL,
-    rol TEXT NOT NULL DEFAULT 'EMPLEADO',
-    CONSTRAINT chk_rol CHECK (rol IN ('ADMIN', 'EMPLEADO'))
+    contrasena TEXT NOT NULL,          -- hash BCrypt
+    rol_id INTEGER NOT NULL,
+    FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
-
 CREATE TABLE asistencias (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER NOT NULL,
-    tipo TEXT NOT NULL,
-    fecha_hora TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tipo_id INTEGER NOT NULL,
+    fecha TEXT NOT NULL,
+    hora TEXT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    CONSTRAINT chk_tipo CHECK (tipo IN ('ENTRADA', 'SALIDA'))
+    FOREIGN KEY (tipo_id) REFERENCES tipos_asistencia(id)
 );
 ```
 
-El script corresponde al esquema actual de `asistencia_db`, la base SQLite que la app abre con ruta relativa desde la raíz del proyecto.
+## Build y pruebas
+
+```bash
+mvn compile   # compilar
+mvn test      # correr pruebas JUnit (usando una BD temporal)
+mvn package   # jar ejecutable con dependencias (maven-shade)
+```

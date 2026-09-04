@@ -51,14 +51,14 @@ public class frmMenu extends JFrame {
             JButton btnUsuarios = new JButton("Gestionar Usuarios", users);
             JButton btnAsistencia = new JButton("Asistencia", asistencia);
             btnAtrasos.addActionListener(e -> abrirReporte("Registro Atrasos (post 9:30)",
-                    new String[]{"ID", "Nombre", "Fecha", "Hora Entrada"}, crud::reporteAtrasos));
+                    new String[]{"ID", "Nombre", "Fecha", "Hora Entrada"}, () -> crud.reporteAtrasos(usuario)));
             btnSalidas.addActionListener(e -> abrirReporte("Registro Salidas Anticipadas (antes de 17:30)",
-                    new String[]{"ID", "Nombre", "Fecha", "Hora Salida"}, crud::reporteSalidasAnticipadas));
+                    new String[]{"ID", "Nombre", "Fecha", "Hora Salida"}, () -> crud.reporteSalidasAnticipadas(usuario)));
             btnInasistencias.addActionListener(e -> abrirReporte("Registro Inasistencias (lun-vie)",
-                    new String[]{"ID", "Nombre", "Fecha Ausencia"}, crud::reporteInasistencias));
+                    new String[]{"ID", "Nombre", "Fecha Ausencia"}, () -> crud.reporteInasistencias(usuario)));
             btnUsuarios.addActionListener(e -> new frmUser(usuario).setVisible(true));
             btnAsistencia.addActionListener(e -> abrirReporte("Registro de Asistencias",
-                    new String[]{"ID", "Nombre", "Tipo", "Fecha", "Hora"}, crud::listarAsistencias));
+                    new String[]{"ID", "Nombre", "Tipo", "Fecha", "Hora"}, () -> crud.listarAsistencias(usuario)));
             panel.add(btnAsistencia);
             panel.add(btnUsuarios);
             panel.add(btnAtrasos);
